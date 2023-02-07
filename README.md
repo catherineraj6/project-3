@@ -62,3 +62,11 @@ The `tests` directory contains a test suite for the `src` package. There's a `ru
 ## Authors
 
 Michal Young, Ram Durairajan. Updated by Ali Hassani.
+## Coders
+Catherine Raj - 
+## About
+This project handles AJAX in the frontend and logic within the backend. Our goal is to
+get the correct requests and responses and have the webpage handle things without 
+refreshes.
+## Information
+craj@uoregon.edu
