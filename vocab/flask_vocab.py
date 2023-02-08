@@ -5,6 +5,7 @@ from a scrambled string)
 """
 
 import flask
+from flask import request
 import logging
 
 # Our modules
@@ -99,28 +100,32 @@ def check():
     # Is it good?
     in_jumble = LetterBag(jumble).contains(text)
     matched = WORDS.has(text)
+    output = ""
 
     # Respond appropriately
     if matched and in_jumble and not (text in matches):
         # Cool, they found a new word
         matches.append(text)
         flask.session["matches"] = matches
+        output = ""
     elif text in matches:
-        flask.flash("You already found {}".format(text))
+        #flask.flash("You already found {}".format(text))
+        output = "This word has been found already"
     elif not matched:
-        flask.flash("{} isn't in the list of words".format(text))
+        #flask.flash("{} isn't in the list of words".format(text))
+        output = text +"is not in the list,sorry"
     elif not in_jumble:
-        flask.flash(
-            '"{}" can\'t be made from the letters {}'.format(text, jumble))
+        #flask.flash('"{}" can\'t be made from the letters {}'.format(text, jumble))
+        output = "This word cannot  be created using" + jumble
     else:
         app.logger.debug("This case shouldn't happen!")
         assert False  # Raises AssertionError
 
     # Choose page:  Solved enough, or keep going?
     if len(matches) >= flask.session["target_count"]:
-       return flask.redirect(flask.url_for("success"))
+       return flask.jsonify(output = "success")
     else:
-       return flask.redirect(flask.url_for("keep_going"))
+       return flask.jsonify(out = output)
 
 
 ###############
